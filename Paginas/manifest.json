@@ -1,0 +1,12 @@
+{
+    "id":           "paginas",
+	"type":         "mod",
+    "name":         "Páginas do Sistema",
+    "description":  "Criador de páginas extra do sistema.",
+    "icon_url":     "icon.png",
+    "homepage_url": "http://github.com/boxbillinggit/",
+    "author":       "Adriano Andrade",
+    "author_url":   "http://boxbilling.com.pl/",
+    "license":      "GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html",
+    "version":      "1.1.0"
+}

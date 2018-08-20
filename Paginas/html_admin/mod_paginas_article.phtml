@@ -1,0 +1,80 @@
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% trans 'Página' %}{% endblock %}
+
+{% set active_menu = 'paginas' %}
+
+{% block content %}
+
+
+<div class="widget">
+    <div class="head">
+        <h5>Editar Página</h5>
+    </div>
+    <form method="post" action="{{ 'api/admin/paginas/pagina_update'|link }}" class="mainForm api-form" data-api-redirect="{{ '/bb-admin/paginas'|link }}" data-api-msg="{% trans 'Article updated' %}">
+            <fieldset>
+            {% for pagina in post %}
+            <input type="hidden" name="id" value="{{pagina.id}}">
+                <div class="rowElem noborder">
+                    <label>{% trans 'Titulo' %}:</label>
+                    <div class="formRight">
+                    <input type="text" name="name" id="titulo" value="{{pagina.title}}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem noborder">
+                    <label>{% trans 'Url' %}:</label>
+                    <div class="formRight">
+                    <input type="text" name="slug" id="url" value="{{pagina.slug}}">
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <div class="rowElem">
+                    <label>{% trans 'Corpo' %}:</label>
+                    <div class="formRight">
+                        <textarea name="message" id="tiny" rows="10" cols="100" class="bb-textarea markItUpEditor" required>{{pagina.text}}</textarea>
+                    </div>
+                    <div class="fix"></div>
+                </div>
+
+                <input type="submit" value="{% trans 'Update' %}" class="greyishBtn submitForm" />
+                {% else %}
+                    {% trans 'The list is empty' %}
+        {% endfor %}
+            </fieldset>
+        </form>
+
+</div>
+
+
+<script>
+function string_to_slug(str) {
+  str = str.replace(/^\s+|\s+$/g, ''); // trim
+  str = str.toLowerCase();
+  
+  // remove accents, swap ñ for n, etc
+  var from = "àáäãâèéëêìíïîòóöôùúüûñç·/_,:;";
+  var to   = "aaaaaeeeeiiiioooouuuunc------";
+  for (var i=0, l=from.length ; i<l ; i++) {
+    str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
+  }
+
+  str = str.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
+    .replace(/\s+/g, '-') // collapse whitespace and replace by -
+    .replace(/-+/g, '-'); // collapse dashes
+
+  return str;
+}
+$("#titulo").keyup(function(){
+        var Text = string_to_slug($(this).val());
+        $("#url").val(Text);        
+});
+$("#url").keyup(function(){
+        var Text = string_to_slug($(this).val());
+        $(this).val(Text);        
+});
+</script>
+{% endblock %}
+{% block head %}{{ mf.bb_editor('.bb-textarea') }}{% endblock %}

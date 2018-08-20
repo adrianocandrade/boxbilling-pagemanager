@@ -1,0 +1,45 @@
+
+{% extends request.ajax ? "layout_blank.phtml" : "layout_default.phtml" %}
+
+{% block meta_title %}{% for pagina in post %}{{ pagina.title }}{% else %}Página não encontrada{% endfor %}{% endblock %}
+
+{% block content_before %}
+    {% for pagina in post %}
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">{{pagina.title}}</h1>
+				<ol class="breadcrumb">
+					<li><a href="{{''|link }}">{% trans 'Home' %}</a></li>
+					<li class="active">{{pagina.title}}</li>
+				</ol>
+            </div>
+        </div>
+        <!-- /.row -->
+    {% else %}
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Error 404</h1>
+				<ol class="breadcrumb">
+					<li><a href="{{''|link }}">{% trans 'Home' %}</a></li>
+					<li class="active">Error 404</li>
+				</ol>
+            </div>
+        </div>
+        <!-- /.row -->
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+        {% for pagina in post %}{{ pagina.text|bbmd }}
+        {% else %}
+            Desculpe mas essa página não foi encontrada.<br>
+            <div class="offset5"><a href="{{ '/' | link}}" class="btn btn-alt btn-primary btn-large" title="Back to Homepage">{% trans 'Back to Homepage' %}</a></div>
+        {% endfor %}
+{% endblock %}
+
+
+{% block js %}
+
+{% endblock %}
